@@ -125,8 +125,8 @@
   <p class="sub">I lead media-generation benchmarking at <a href="https://artificialanalysis.ai" style="color:inherit">Artificial Analysis</a>.
   Over 19 months I went from ~13 hand-written PRs a month to 115 agent-built PRs in July 2026 — with fewer reverts, not more.
   This page is the complete, honest picture: the measured acceleration, the workflow that produced it, and everything you need to replicate the setup.
-  All numbers come from the git/GitHub history of one production monorepo (503 merged PRs, ~2,500 branch commits).</p>
-  <p class="meta">Written August 2026 · numbers current through Aug 6, 2026 · single self-contained file, no trackers, no external requests</p>
+  All numbers come from the git/GitHub history of one production monorepo (505 merged PRs, ~2,500 branch commits).</p>
+  <p class="meta">Written August 2026 · numbers current through Aug 7, 2026 · single self-contained file, no trackers, no external requests</p>
 </header>
 
 <section>
@@ -155,7 +155,7 @@
 
   <div class="tiles">
     <div class="tile"><div class="v">~9×</div><div class="l">PR velocity vs 2025</div><div class="d">13/mo avg 2025 → 115 in Jul 2026</div></div>
-    <div class="tile"><div class="v">115</div><div class="l">PRs merged in July 2026</div><div class="d">Aug pace ≈ 180 (36 in 6 days)</div></div>
+    <div class="tile"><div class="v">115</div><div class="l">PRs merged in July 2026</div><div class="d">Aug pace ≈ 213 (38 in 7 days)</div></div>
     <div class="tile"><div class="v">34</div><div class="l">PRs merged in one day</div><div class="d">2025's best day was 5</div></div>
     <div class="tile"><div class="v">1</div><div class="l">revert in the AI era</div><div class="d">vs 5 revert PRs + 3 hotfixes in 2025</div></div>
   </div>
@@ -163,6 +163,8 @@
   <div class="card">
     <div class="legend" id="legend"></div>
     <div class="chart-scroll"><svg id="chart" role="img" aria-label="Stacked monthly bar chart of merged PRs by AI attribution, January 2025 to August 2026"></svg></div>
+    <p class="note">The dashed box on August is a projection, not data: 96 PRs merged in the trailing 14 days (Jul 25 – Aug 7) = 6.9/day,
+    which extrapolates to ≈213 for the full month. The solid bar is the 38 actually merged so far.</p>
     <details>
       <summary>Table view — monthly counts</summary>
       <div class="tbl-scroll"><table id="datatable" style="margin-top:10px"></table></div>
@@ -198,7 +200,7 @@
     <li>Ambition present, decomposition not yet: the era still produced 117-commit single-PR monsters.</li>
   </ul>
 
-  <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-fable);margin-right:8px"></span>Jun 2026+ — multi-agent orchestration (205 PRs, 115 in July alone)</h3>
+  <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-fable);margin-right:8px"></span>Jun 2026+ — multi-agent orchestration (207 PRs, 115 in July alone)</h3>
   <ul>
     <li><strong>The unit of work became the program, not the PR:</strong> 6-and-7-PR stacks with merge order encoded in the title (<code>[PR n/N - Program Name]</code>); half of all PR bodies reference another PR (2% → 9% → 50% across the eras).</li>
     <li><strong>Bodies argue with evidence, not checkboxes:</strong> unchecked <code>- [ ]</code> boxes fell from 80% of PRs to 20%, displaced by already-run results — type-check/lint/test output, and production <code>EXPLAIN ANALYZE</code> plans pasted into the body.</li>
@@ -784,7 +786,7 @@ description: Fully autonomous atomic-change pipeline — context sweep, fresh
 
 <footer style="margin-top:70px; color:var(--muted); font-size:0.8rem">
   <p style="color:var(--muted)">Joseph Jeong · Media Generation Benchmarking Lead, Artificial Analysis · August 2026.
-  Methodology: merged-PR history of one production monorepo, classified via commit co-author trailers; qualitative read of all 503 PR
+  Methodology: merged-PR history of one production monorepo, classified via commit co-author trailers; qualitative read of all 505 PR
   titles/bodies/commit messages. This page is a single self-contained HTML file — share it freely.</p>
 </footer>
 
@@ -806,8 +808,9 @@ const DATA = [
   ['2025-10', 7,0,0,0,0], ['2025-11',14,0,0,0,0], ['2025-12',12,0,0,0,0],
   ['2026-01', 2,15,0,0,2], ['2026-02', 3,35,0,0,1], ['2026-03', 5,36,0,0,0],
   ['2026-04', 0, 4,0,0,0], ['2026-05', 0,37,0,0,1], ['2026-06', 0,39,11,0,4],
-  ['2026-07', 0, 8,101,6,0], ['2026-08', 0, 0,34,2,0],
+  ['2026-07', 0, 8,101,6,0], ['2026-08', 0, 0,36,2,0],
 ];
+const AUG_PROJ = 213;
 
 const tip = document.getElementById('tip');
 function showTip(evt, html) {
@@ -821,7 +824,7 @@ function showTip(evt, html) {
 function hideTip() { tip.style.display = 'none'; }
 function tipHTML(row) {
   const total = row.slice(1).reduce((a,b)=>a+b,0);
-  let html = `<div class="t">${row[0]} — ${total} PR${total===1?'':'s'}${row[0]==='2026-08' ? ' <span style="font-weight:400;color:var(--muted)">(6 days)</span>':''}</div>`;
+  let html = `<div class="t">${row[0]} — ${total} PR${total===1?'':'s'}${row[0]==='2026-08' ? ' <span style="font-weight:400;color:var(--muted)">(7 days)</span>':''}</div>`;
   SERIES.forEach((s,i) => {
     if (row[i+1] > 0) html += `<div class="row"><span><span class="sw" style="background:var(${s.cssVar})"></span>${s.name}</span><span class="n">${row[i+1]}</span></div>`;
   });
@@ -839,14 +842,14 @@ SERIES.forEach(s => {
 (function () {
   const W = 860, H = 320, m = { t: 34, r: 12, b: 30, l: 36 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const maxY = 120, gap2 = 2;
+  const maxY = 240, gap2 = 2;
   const n = DATA.length, step = iw / n, bw = Math.min(28, step - 8);
   const y = v => m.t + ih - (v / maxY) * ih;
   const svg = document.getElementById('chart');
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('width', W); svg.style.maxWidth = '100%'; svg.style.height = 'auto';
   let g = '';
-  [0, 30, 60, 90, 120].forEach(v => {
+  [0, 60, 120, 180, 240].forEach(v => {
     g += `<line class="${v===0?'axisline':'gridline'}" x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}"></line>`;
     if (v>0) g += `<text class="tick" x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`;
   });
@@ -878,11 +881,14 @@ SERIES.forEach(s => {
   });
   const jul = 18, apr = 15, aug = 19;
   const cxOf = i => m.l + i*step + step/2;
+  const augTotal = DATA[aug].slice(1).reduce((a,b)=>a+b,0);
+  const augX = m.l + aug*step + (step - bw)/2;
+  g += `<rect x="${augX}" y="${y(AUG_PROJ)}" width="${bw}" height="${y(augTotal)-y(AUG_PROJ)}" rx="4" fill="none" stroke="var(--muted)" stroke-dasharray="4 3"></rect>`;
   g += `<text class="anno-strong" x="${cxOf(jul)}" y="${y(115)-8}" text-anchor="middle">115</text>`;
-  g += `<text class="anno" x="${cxOf(aug)+2}" y="${y(36)-8}" text-anchor="middle">36*</text>`;
+  g += `<text class="anno" x="${augX-6}" y="${y(AUG_PROJ)+4}" text-anchor="end">${augTotal}* · proj ≈ ${AUG_PROJ}</text>`;
   g += `<text class="anno" x="${cxOf(apr)}" y="${y(4)-22}" text-anchor="middle">on holiday</text>`;
   g += `<line x1="${cxOf(apr)}" x2="${cxOf(apr)}" y1="${y(4)-18}" y2="${y(4)-5}" stroke="var(--muted)" stroke-width="1"></line>`;
-  g += `<text class="anno" x="${W-m.r}" y="${m.t-18}" text-anchor="end">* Aug = first 6 days</text>`;
+  g += `<text class="anno" x="${W-m.r}" y="${m.t-18}" text-anchor="end">* Aug = first 7 days</text>`;
   g += `<text class="anno" x="${m.l + step*3 + 6}" y="${y(avg25)-6}">2025 avg · 13 PRs/mo</text>`;
   svg.innerHTML = g;
   svg.querySelectorAll('.col').forEach(col => {
@@ -914,7 +920,7 @@ SERIES.forEach(s => {
     { name: 'Opus 4.6', a: '2026-02-05', b: '2026-05-01', cssVar: '--s-opus4', commits: 123 },
     { name: 'Opus 4.7', a: '2026-04-29', b: '2026-06-10', cssVar: '--s-opus4', commits: 82 },
     { name: 'Opus 4.8', a: '2026-06-06', b: '2026-07-08', cssVar: '--s-opus4', commits: 91 },
-    { name: 'Fable 5',  a: '2026-06-11', b: '2026-08-07', cssVar: '--s-fable', commits: 449 },
+    { name: 'Fable 5',  a: '2026-06-11', b: '2026-08-07', cssVar: '--s-fable', commits: 451 },
     { name: 'Opus 5',   a: '2026-07-27', b: '2026-08-05', cssVar: '--s-opus5', commits: 70 },
   ];
   const W = 860, rowH = 34, m = { t: 26, r: 90, b: 26, l: 84 };
