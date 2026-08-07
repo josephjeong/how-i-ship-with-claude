@@ -884,7 +884,7 @@ SERIES.forEach(s => {
   const augTotal = DATA[aug].slice(1).reduce((a,b)=>a+b,0);
   const augX = m.l + aug*step + (step - bw)/2;
   const pjY = y(AUG_PROJ), pjH = y(augTotal) - pjY;
-  g += `<path d="M ${augX} ${pjY+5} q 0 -5 5 -5 h ${bw-10} q 5 0 5 5 v ${pjH-5} h ${-bw} Z" fill="var(--s-fable)" fill-opacity="0.08" stroke="var(--s-fable)" stroke-opacity="0.65" stroke-width="1.4" stroke-dasharray="6 5" stroke-linejoin="round" stroke-linecap="round"></path>`;
+  g += `<path d="M ${augX} ${pjY+5} q 0 -5 5 -5 h ${bw-10} q 5 0 5 5 v ${pjH-5} h ${-bw} Z" fill="var(--s-fable)" fill-opacity="0.28" stroke="var(--s-fable)" stroke-opacity="0.75" stroke-width="1.4" stroke-dasharray="6 5" stroke-linejoin="round" stroke-linecap="round"></path>`;
   g += `<text class="anno-strong" x="${cxOf(jul)}" y="${y(115)-8}" text-anchor="middle">115</text>`;
   g += `<text class="anno" x="${augX-6}" y="${y(AUG_PROJ)+4}" text-anchor="end">${augTotal}* · proj ≈ ${AUG_PROJ}</text>`;
   g += `<text class="anno" x="${cxOf(apr)}" y="${y(4)-22}" text-anchor="middle">on holiday</text>`;
