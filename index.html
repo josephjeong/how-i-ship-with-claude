@@ -171,7 +171,7 @@
   </div>
 
   <h3>Model Adoption Timeline</h3>
-  <p>Span = first to last co-authored commit in my merged PRs. After a 5-week lag adopting Opus 4.5 (released Nov 2025, adopted Jan 2, 2026),
+  <p>Each bar runs from the first to the last co-authored commit in my merged PRs. After a 5-week lag adopting Opus 4.5 (released Nov 2025, adopted Jan 2, 2026),
   every later model shows up within days of availability. Fable 5 arrived June 11, and the big jump came in July, together with the workflow change described below. Section 11 covers that confound.</p>
   <div class="card">
     <div class="chart-scroll"><svg id="timeline" role="img" aria-label="Timeline of model usage spans from January to August 2026"></svg></div>
@@ -378,7 +378,7 @@
       <li>Constraints that live only in memory (domain gotchas the repo doesn't document), plus an instruction to read the applicable
       <code>AGENTS.md</code> files.</li>
       <li>Scope discipline: minimal diff, no files outside the scope, no refactors, no comment churn, no drive-by cleanups.</li>
-      <li>Output shape: edit files in place, final report = change summary + files touched + anything contradicting the brief.</li>
+      <li>Output shape: edit files in place, final report is the change summary, the files touched, and anything contradicting the brief.</li>
       <li>Verbatim: <em>"If the repo contradicts this brief, stop and report instead of implementing."</em></li>
     </ol>
     <h3>Scale Rules</h3>
@@ -421,7 +421,7 @@
       what can be removed at no cost? Dead parameters, needless indirection, helpers with one consumer, comment churn. Subtraction
       only, no behavior change. (Tests get the same treatment at authoring time under an absolute minimization rule. Every test must name the distinct
       contract only it pins. A test that cannot gets merged into another one or deleted.)</li>
-      <li><strong>Commit, push, PR.</strong> Imperative commit message with a short why + model attribution trailer. PR body = Summary + Test plan
+      <li><strong>Commit, push, PR.</strong> Imperative commit message with a short why + model attribution trailer. PR body is a Summary and a Test plan
       with the actual run output. The tracking ticket is filed automatically, following the team's project conventions.</li>
       <li><strong>Review bot triage.</strong> Poll in the background for the team's PR review bot. Make an explicit judgment on every comment, apply it
       (via the implementer) or skip with a one-line reason, and <strong>reply on every bot thread</strong> with the verdict and commit SHA, so
@@ -504,7 +504,7 @@
       <li><strong>Split orchestrator and implementer.</strong> Add a delegation section. The main loop verifies premises, writes briefs, and reviews.
       Subagents (explicitly named model tier on every spawn) explore and implement. Copy the six-point brief contract from section 7 verbatim,
       especially the closing line about stopping when the repo contradicts the brief.</li>
-      <li><strong>Adopt worktree isolation.</strong> One change = one worktree off the target branch. This is what makes 5+ parallel changes
+      <li><strong>Adopt worktree isolation.</strong> One change gets one worktree off the target branch. This is what makes 5+ parallel changes
       tractable and keeps your main tree clean for the next conversation.</li>
       <li><strong>Build your atomic-PR command.</strong> A markdown file in your repo's <code>.claude/commands/</code> implementing section 8's nine
       steps against <em>your</em> CI, review bots, and deploy pipeline. Start minimal (sweep -> worktree -> implement -> verify -> PR) and let the retro
