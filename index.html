@@ -503,9 +503,9 @@
       <li><strong>Write the communication contract first.</strong> Create <code>~/.claude/CLAUDE.md</code> in about 30 minutes, covering
       how you want answers formatted (steal the numbered hierarchy rule), the "answer questions before implementing" rule, and how you review
       (for example, "diffs on GitHub only"), because the file loads into every session and those ~50 lines pay for themselves in each one.</li>
-      <li><strong>Split orchestrator and implementer.</strong> Add a delegation section. The main loop verifies premises, writes briefs, and reviews.
-      Subagents (explicitly named model tier on every spawn) explore and implement. Copy the six-point brief contract from section 7 verbatim,
-      especially the closing line about stopping when the repo contradicts the brief.</li>
+      <li><strong>Split orchestrator and implementer.</strong> Add a delegation section where the main loop verifies premises, writes briefs, and
+      reviews while subagents (explicitly named model tier on every spawn) explore and implement, then copy the six-point brief contract from
+      section 7 verbatim, especially the closing line about stopping when the repo contradicts the brief.</li>
       <li><strong>Adopt worktree isolation.</strong> One change gets one worktree off the target branch, which is what makes 5+ parallel changes
       tractable and keeps your main tree clean for the next conversation.</li>
       <li><strong>Build your atomic-PR command.</strong> Write a markdown file in your repo's <code>.claude/commands/</code> that implements section 8's nine
