@@ -187,27 +187,27 @@
 
   <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-manual);margin-right:8px"></span>2025 - Manual (157 PRs, ~13/month)</h3>
   <ul>
-    <li><strong>The work went largely undocumented:</strong> it was scripts and provider wiring, PR bodies were 64% empty, and only 8 of 157 carried handwritten prose.</li>
-    <li><strong>PRs came in big bangs:</strong> one landed +10k/-9.5k lines in 43 commits and another took 211 commits to ship a 111-line change.</li>
-    <li><strong>I shipped first and discovered problems later:</strong> one feature merged and reverted 3 days later, 5% of titles said
-    "temp/hotfix/rollback", and one Aug 2025 PR body reads in full <em>"made with cursor agent + gpt-5. Would be curious how cooked it is ;D"</em>.</li>
+    <li><strong>The work was scripts and provider wiring</strong>, and it went largely undocumented, with 64% of PR bodies empty and only 8 of 157 carrying handwritten prose.</li>
+    <li><strong>PRs came in big bangs</strong>, one landing +10k/-9.5k lines in 43 commits and another taking 211 commits to ship a 111-line change.</li>
+    <li><strong>I shipped first and discovered problems later</strong>, with one feature merged and reverted 3 days apart, 5% of titles saying
+    "temp/hotfix/rollback", and one Aug 2025 PR body reading in full <em>"made with cursor agent + gpt-5. Would be curious how cooked it is ;D"</em>.</li>
   </ul>
 
   <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-opus4);margin-right:8px"></span>Jan-May 2026 - Single-Agent Claude Code (141 PRs, ~34/month across the four working months)</h3>
   <ul>
-    <li><strong>This was the template era:</strong> 89% of PRs carried a Summary + Test plan applied so uniformly that the template became ritual (a PR adding one logo image got a full test plan).</li>
-    <li><strong>Internal tooling took over:</strong> it jumped from 5% to 29% of PRs, and I still work daily in the dashboards and trackers that era produced.</li>
-    <li><strong>Ambition rose faster than decomposition:</strong> 2025's "temporary fix" PRs became engineered integrity features, while the era
+    <li><strong>This was the template era</strong>, when 89% of PRs carried a Summary + Test plan applied so uniformly that the template became ritual (a PR adding one logo image got a full test plan).</li>
+    <li><strong>Internal tooling took over</strong>, jumping from 5% to 29% of PRs, and I still work daily in the dashboards and trackers that era produced.</li>
+    <li><strong>Ambition rose faster than decomposition</strong>, as 2025's "temporary fix" PRs became engineered integrity features while the era
     still produced single-PR monsters, one running to 117 commits.</li>
   </ul>
 
   <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-fable);margin-right:8px"></span>Jun 2026+ - Multi-Agent Orchestration (209 PRs, ~90/month across June, July, and the first 10 days of August)</h3>
   <ul>
-    <li><strong>The unit of work is now the program:</strong> work arrives as stacks of 6 and 7 PRs with merge order encoded in the title (<code>[PR n/N - Program Name]</code>), and half of all PR bodies now reference another PR (2% -> 9% -> 50% across the eras).</li>
-    <li><strong>Bodies carry evidence:</strong> unchecked <code>- [ ]</code> boxes fell from 80% of PRs to 20%, displaced by actual run output (type-check/lint/test results, plus production <code>EXPLAIN ANALYZE</code> plans pasted into the body).</li>
-    <li><strong>The review loop is visible in history:</strong> review bot findings and cross-vendor review batches are named and answered in PR bodies, and review fix commits went 2 -> 7 -> 24 per era.</li>
-    <li><strong>Provenance is recorded on every commit:</strong> 23 PRs carry the orchestrator and its implementing subagent as joint co-authors, and 495 commits since June carry a session transcript link (0 before).</li>
-    <li><strong>The system builds its own tooling:</strong> ~8% of PRs ship runbooks, CLIs, and agent skills for future agent runs, a category that didn't exist in earlier eras.</li>
+    <li><strong>The unit of work is now the program</strong>, arriving as stacks of 6 and 7 PRs with merge order encoded in the title (<code>[PR n/N - Program Name]</code>), and half of all PR bodies now reference another PR (2% -> 9% -> 50% across the eras).</li>
+    <li><strong>PR bodies now carry evidence</strong>, as unchecked <code>- [ ]</code> boxes fell from 80% of PRs to 20%, displaced by actual run output (type-check/lint/test results, plus production <code>EXPLAIN ANALYZE</code> plans pasted into the body).</li>
+    <li><strong>The review loop is visible in history</strong>, where review bot findings and cross-vendor review batches are named and answered in PR bodies and review fix commits went 2 -> 7 -> 24 per era.</li>
+    <li><strong>Provenance is recorded on every commit</strong>, with 23 PRs carrying the orchestrator and its implementing subagent as joint co-authors and 495 commits since June carrying a session transcript link (0 before).</li>
+    <li><strong>The system builds its own tooling</strong>, and ~8% of PRs ship runbooks, CLIs, and agent skills for future agent runs, a category that didn't exist in earlier eras.</li>
   </ul>
 
   <div class="card">
@@ -391,13 +391,13 @@
     verdicts throughout.</p>
     <h3>The Brief Contract - Every Implementation Brief Contains</h3>
     <ol>
-      <li><strong>Verified requirements:</strong> premises checked against repo and memory <em>first</em>, plus a named list of the intentional behaviors that must not change.</li>
-      <li><strong>Target paths:</strong> the worktree to work in and the seed files to start from.</li>
-      <li><strong>Memory-only constraints:</strong> domain gotchas the repo doesn't document, plus an instruction to read the applicable
+      <li><strong>Verified requirements open every brief</strong>, with premises checked against repo and memory <em>first</em> and the intentional behaviors that must not change named.</li>
+      <li><strong>Target paths name the worktree</strong> to work in and the seed files to start from.</li>
+      <li><strong>Memory-only constraints carry the domain gotchas</strong> the repo doesn't document, plus an instruction to read the applicable
       <code>AGENTS.md</code> files.</li>
-      <li><strong>Scope discipline:</strong> minimal diff, no files outside the scope, no refactors, no comment churn, no drive-by cleanups.</li>
-      <li><strong>Output shape:</strong> files edited in place, plus a report carrying the change summary, the files touched, and anything contradicting the brief.</li>
-      <li><strong>Closing line, verbatim:</strong> <em>"If the repo contradicts this brief, stop and report instead of implementing."</em></li>
+      <li><strong>Scope discipline demands a minimal diff</strong>, with no files outside the scope, no refactors, no comment churn, and no drive-by cleanups.</li>
+      <li><strong>Output lands as files edited in place</strong>, plus a report carrying the change summary, the files touched, and anything contradicting the brief.</li>
+      <li><strong>Every brief closes with the same verbatim line:</strong> <em>"If the repo contradicts this brief, stop and report instead of implementing."</em></li>
     </ol>
     <h3>Scale Rules</h3>
     <ul>
@@ -552,13 +552,13 @@
     </ol>
     <h3>Copy Verbatim vs Adapt vs Never Copy</h3>
     <ul>
-      <li><strong>Copy near verbatim (mechanism, portable):</strong> the pipeline stage structure, the two-track context sweep, worktree +
+      <li><strong>Copy the mechanisms nearly verbatim, since they port to any repo:</strong> the pipeline stage structure, the two-track context sweep, worktree +
       target branch by path, the recursive dual reviewer loop with the named security dimension, the nested implementer bug bash, the stacked PR
       branching and <code>rebase --onto</code> mechanics, replying on every bot thread, and the numbered hierarchy + thread letter message format.</li>
-      <li><strong>Adapt per person/team:</strong> the commit attribution trailer, your ticket tracker's conventions, which knowledge sources your
+      <li><strong>Adapt these to your own person and team:</strong> the commit attribution trailer, your ticket tracker's conventions, which knowledge sources your
       context sweep covers, the cross-vendor reviewer model and flags (or drop that layer and run extra adversarial rounds on your own vendor's model), and the
       pre-plan review themes, which encode <em>your</em> repo's failure history and are worth regenerating from your own review record.</li>
-      <li><strong>Never copy (machine-specific):</strong> lint hook environment variables, env file symlink paths, scratchpad and publish
+      <li><strong>Never copy anything machine-specific:</strong> lint hook environment variables, env file symlink paths, scratchpad and publish
       directory conventions, and in general anything with an absolute path in it, which is a trap in someone else's config.</li>
     </ul>
     <p class="note">Total setup from zero is about a weekend. Whatever you copy, keep the split, with personal workflow living in personal
