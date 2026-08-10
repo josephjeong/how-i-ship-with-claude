@@ -124,8 +124,8 @@
   <h1>How I ship ~9x faster with a multi-agent Claude workflow</h1>
   <p class="sub">I lead media generation benchmarking at <a href="https://artificialanalysis.ai" style="color:inherit">Artificial Analysis</a>.
   Over 19 months I went from ~13 handwritten PRs a month to 115 PRs built by agents in July 2026, and reverts fell from 5 in 2025 (plus 3 hotfixes) to 1 in the agent era.
-  All numbers come from the git/GitHub history of one production monorepo (505 merged PRs, ~2,500 branch commits).</p>
-  <p class="meta">Written August 2026. Numbers current through Aug 7, 2026. Single self-contained file, no trackers, no external requests.</p>
+  All numbers come from the git/GitHub history of one production monorepo (507 merged PRs, ~2,200 branch commits).</p>
+  <p class="meta">Written August 2026. Numbers current through Aug 10, 2026. Single self-contained file, no trackers, no external requests.</p>
 </header>
 
 <section>
@@ -136,12 +136,12 @@
     <li><a href="#quality">Quality Under the Acceleration</a></li>
     <li><a href="#manifesto">The Manifesto and the Session Model</a></li>
     <li><a href="#architecture">The Architecture</a></li>
-    <li><a href="#claude-md">Layer 1 - The CLAUDE.md Contract</a></li>
+    <li><a href="#claude-md">Layer 1 - The Communication Contract</a></li>
     <li><a href="#delegation">Layer 2 - The Delegation Policy</a></li>
     <li><a href="#pipeline">Layer 3 - The Atomic-PR Pipeline</a></li>
     <li><a href="#memory">Layer 4 - Memory, Skills, and the Retro Loop</a></li>
     <li><a href="#replicate">Replicate It - A Setup Guide</a></li>
-    <li><a href="#costs">Costs, Failure Modes, and Tooling Traps</a></li>
+    <li><a href="#costs">Costs, Failure Modes, Tooling Traps, and Confounds</a></li>
     <li><a href="#appendix">Appendix - The Two Config Files, Sanitized as Templates</a></li>
   </ol>
 </section>
@@ -150,7 +150,7 @@
   <h2>1 · The Acceleration, Measured</h2>
   <div class="tiles">
     <div class="tile"><div class="v">~9x</div><div class="l">PR velocity vs 2025</div><div class="d">13/mo avg 2025 -> 115 in Jul 2026</div></div>
-    <div class="tile"><div class="v">115</div><div class="l">PRs merged in July 2026</div><div class="d">Aug pace ~213 (38 in 7 days)</div></div>
+    <div class="tile"><div class="v">~202</div><div class="l">August pace, projected</div><div class="d">40 merged in the first 10 days</div></div>
     <div class="tile"><div class="v">34</div><div class="l">PRs merged in one day</div><div class="d">vs a best day of 5 in 2025</div></div>
     <div class="tile"><div class="v">1</div><div class="l">revert in the agent era</div><div class="d">vs 5 revert PRs + 3 hotfixes in 2025</div></div>
   </div>
@@ -163,43 +163,45 @@
     <h3 style="margin-top:0">From 13 Manual PRs a Month to 115 Built by Agents</h3>
     <div class="legend" id="legend"></div>
     <div class="chart-scroll"><svg id="chart" role="img" aria-label="Stacked monthly bar chart of merged PRs by AI attribution, January 2025 to August 2026"></svg></div>
-    <p class="note">* August shows its first 7 days (38 PRs merged). The dashed box projects ~213 for the full month, from the
-    trailing 14-day rate of 6.9 PRs/day (96 merged Jul 25 - Aug 7).</p>
+    <p class="note">* August shows its first 10 days (40 PRs merged). The dashed box projects ~202 for the full month, from the
+    trailing 14-day rate of 6.5 PRs/day (91 merged Jul 28 - Aug 10).</p>
     <details>
       <summary>Table View - Monthly Counts</summary>
       <div class="tbl-scroll"><table id="datatable" style="margin-top:10px"></table></div>
     </details>
   </div>
 
-  <h3>New Models Enter the Workflow Within Days of Release</h3>
-  <p>Each bar runs from the first to the last co-authored commit in my merged PRs. After a 5-week lag on Opus 4.5 (released Nov 2025, first used Jan 2, 2026),
-  every later model shows up within days of availability. Fable 5 first appears June 11, the workflow change described below lands the same month, and the big velocity jump arrives in July. Section 11 covers that confound.</p>
+  <p>After a 5-week lag on Opus 4.5 (released Nov 2025, first used Jan 2, 2026), every later model shows up within days of availability.
+  Fable 5 first appears June 11, the workflow change described below lands the same month, and the big velocity jump arrives in July.
+  Section 11 covers that confound.</p>
   <div class="card">
+    <h3 style="margin-top:0">Adoption Lag Fell from 5 Weeks to Days</h3>
     <div class="chart-scroll"><svg id="timeline" role="img" aria-label="Timeline of model usage spans from January to August 2026"></svg></div>
+    <p class="note">Each bar runs from the first to the last co-authored commit in my merged PRs.</p>
   </div>
 </section>
 
 <section id="eras">
   <h2>2 · Three Eras of Working</h2>
-  <p class="lede">The velocity chart splits into three regimes, and the <em>character</em> of the work changes more than the count does.</p>
+  <p class="lede">The velocity chart splits into three eras, and the <em>character</em> of the work changes more than the count does.</p>
 
   <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-manual);margin-right:8px"></span>2025 - Manual (157 PRs, ~13/month)</h3>
   <ul>
-    <li><strong>The work was scripts and provider wiring:</strong> PR bodies were so bare that 64% were empty and only 8 of 157 carried handwritten prose.</li>
+    <li><strong>The work went largely undocumented:</strong> it was scripts and provider wiring, PR bodies were 64% empty, and only 8 of 157 carried handwritten prose.</li>
     <li><strong>PRs came in big bangs:</strong> one landed +10k/-9.5k lines in 43 commits and another took 211 commits to ship a 111-line change.</li>
     <li><strong>I shipped first and discovered problems later:</strong> one feature merged and reverted 3 days later, 5% of titles said
-    "temp/hotfix/rollback", and one Aug 2025 PR body reads in full <em>"made with cursor agent + gpt-5. Would be curious how cooked it is ;D"</em></li>
+    "temp/hotfix/rollback", and one Aug 2025 PR body reads in full <em>"made with cursor agent + gpt-5. Would be curious how cooked it is ;D"</em>.</li>
   </ul>
 
   <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-opus4);margin-right:8px"></span>Jan-May 2026 - Single-Agent Claude Code (141 PRs, ~34/month across the four working months)</h3>
   <ul>
-    <li><strong>This was the template era:</strong> 89% of PRs carried a Summary + Test plan, applied so uniformly that it became ritual (a PR adding one logo image got a full test plan).</li>
+    <li><strong>This was the template era:</strong> 89% of PRs carried a Summary + Test plan applied so uniformly that the template became ritual (a PR adding one logo image got a full test plan).</li>
     <li><strong>Internal tooling took over:</strong> it jumped from 5% to 29% of PRs, and I still work daily in the dashboards and trackers that era produced.</li>
-    <li><strong>Work shifted from repair to design:</strong> 2025's "temporary fix" PRs became engineered integrity features, though decomposition
-    lagged and the era still produced single-PR monsters, one running to 117 commits.</li>
+    <li><strong>Ambition rose faster than decomposition:</strong> 2025's "temporary fix" PRs became engineered integrity features, while the era
+    still produced single-PR monsters, one running to 117 commits.</li>
   </ul>
 
-  <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-fable);margin-right:8px"></span>Jun 2026+ - Multi-Agent Orchestration (207 PRs, ~93/month)</h3>
+  <h3><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s-fable);margin-right:8px"></span>Jun 2026+ - Multi-Agent Orchestration (209 PRs, ~90/month across June, July, and the first 10 days of August)</h3>
   <ul>
     <li><strong>The unit of work is now the program:</strong> work arrives as stacks of 6 and 7 PRs with merge order encoded in the title (<code>[PR n/N - Program Name]</code>), and half of all PR bodies now reference another PR (2% -> 9% -> 50% across the eras).</li>
     <li><strong>Bodies carry evidence:</strong> unchecked <code>- [ ]</code> boxes fell from 80% of PRs to 20%, displaced by actual run output (type-check/lint/test results, plus production <code>EXPLAIN ANALYZE</code> plans pasted into the body).</li>
@@ -230,12 +232,12 @@
 
 <section id="quality">
   <h2>3 · Quality Under the Acceleration</h2>
-  <p class="lede">Defect rates fell from the 2025 baseline while volume grew ~9x.</p>
+  <p class="lede">Every defect signal I can measure fell or held from the 2025 baseline while volume grew ~9x, across 507 PRs and three eras.</p>
   <div class="card">
     <h3 style="margin-top:0">Reverts, Hotfixes, and Follow-Up Fixes All Fell</h3>
     <div class="tbl-scroll">
     <table>
-      <thead><tr><th>Signal</th><th class="num">2025 manual</th><th class="num">Jan-May 2026</th><th class="num">2026 Jun+</th></tr></thead>
+      <thead><tr><th>Signal</th><th class="num">2025 manual</th><th class="num">Jan-May 2026 single-agent</th><th class="num">2026 Jun+ multi-agent</th></tr></thead>
       <tbody>
         <tr><td>Revert / rollback PRs</td><td class="num">5 (3.2%)</td><td class="num">0</td><td class="num">1 (0.5%)*</td></tr>
         <tr><td>Hotfix / temporary fix PRs</td><td class="num">3</td><td class="num">0</td><td class="num">0</td></tr>
@@ -269,11 +271,11 @@
   <div class="card">
     <h3 style="margin-top:0">The Session Model</h3>
     <ul>
-      <li><strong>One long-lived session covers one vague context and many tasks.</strong> In that stretch one session ran a whole program area for
-      five days (591 messages) while another covered a single evening's page fix, with new workstreams born <em>inside</em> the session as things
-      came up, each getting a thread letter the moment it spawned.</li>
+      <li><strong>One long-lived session covers one vague context and many tasks.</strong> In that stretch one session ran a whole program area for five
+      days (591 messages), spawning new workstreams <em>inside</em> itself as things came up and giving each a thread letter on the spot, while
+      another session covered a single evening's page fix.</li>
       <li><strong>The prompts are throwaway.</strong> Real openers from that stretch include <code>plz fix thsi page - &lt;internal url&gt;</code>,
-      <code>they should be the same number</code>, and <code>lest do 1</code>, with typos and vagueness fine because the pipeline reconstructs context
+      <code>they should be the same number</code>, and <code>lest do 1</code>, and the typos and vagueness cost nothing because the pipeline reconstructs context
       and I approve only after proof (<code>wait can u show me it working in local</code>, answered with screenshots).</li>
       <li><strong>Sessions end by writing durable learnings to memory files.</strong> The next session recalls them instantly, and the cost of skipping the step showed
       up inside that same stretch, where one solved problem without a memory entry forced a full re-discovery round.</li>
@@ -285,7 +287,7 @@
       <li>A teammate, on code quality: <em>"is the code any good?"</em> Me: <em>"no."</em> Also me: <em>"but its ok it works."</em></li>
     </ul>
     <p class="note">The data disagrees. That same reviewer approved most of that stretch's PRs without comments, the revert and follow-up rates
-    in section 3 fell while volume tripled, and seven review layers now see every diff before any human does.</p>
+    in section 3 fell while volume tripled, and the review stack in section 8 sees every diff before any human does.</p>
   </div>
 </section>
 
@@ -297,31 +299,32 @@
   <div class="card">
     <div class="chart-scroll"><svg id="arch" role="img" aria-label="Architecture diagram: a human directing an orchestrator model, which delegates to implementer subagents with nested reviewers, cross-checked by an advisory reviewer from another vendor and a PR review bot"></svg></div>
     <p class="arch-note">One frontier model (Claude Fable 5 today) runs the main loop, owns every verdict, and never writes non-trivial code,
-    while implementer subagents (currently Claude Opus tier) do the typing in isolated git worktrees. Review pressure comes from three independent
-    directions (the implementer's own nested bug bash, an advisory review from OpenAI's Codex CLI running read-only, and the team's PR review bot),
-    and the human (me) reviews on GitHub and owns the merge.</p>
+    while implementer subagents (currently Claude Opus tier) do the typing in isolated git worktrees. Review pressure arrives from the seven layers in section 8,
+    three of them outside the implementing agent (a fresh adversarial bug bash over the full diff, a read-only advisory review from a second
+    vendor, and the team's PR review bot), and the human (me) reviews on GitHub and owns the merge.</p>
   </div>
 
   <h3>The Principles Under It</h3>
+  <p>Five principles hold the layers together, and sections 6 to 9 give each one its mechanics.</p>
   <ol>
     <li><strong>Orchestration and typing are separate jobs.</strong> The main loop model's context window is the scarce resource, so bulk work (file sweeps, long threads,
     transcripts, implementation) happens in subagents that return distilled summaries.</li>
     <li><strong>Premises are the safety boundary.</strong> Implementer agents execute flawed briefs without pushing back, so the orchestrator
-    verifies every premise against the repo and memory <em>before</em> writing the brief and closes every brief with the stop-and-report
-    line from section 7.</li>
-    <li><strong>Review is structural and mandatory.</strong> At least two independent readers see every diff before it reaches a PR, in a fixed
-    order that section 8 sets out step by step.</li>
+    verifies every premise against the repo and memory <em>before</em> the brief goes out, and every brief closes with the verbatim
+    stop-and-report line.</li>
+    <li><strong>Review is structural and mandatory.</strong> At least three independent readers see every diff before it reaches a PR (the
+    implementer's own nested bug bash, a fresh adversarial bash, and the cross-vendor advisory review), in a fixed order.</li>
     <li><strong>Parallelism has no artificial cap.</strong> N independent units of work get N subagents, one per file to migrate, model to probe,
-    or PR to triage, with the recursion and reporting rules in section 7.</li>
+    or PR to triage.</li>
     <li><strong>Everything learned gets written down.</strong> Corrections, gotchas, and workflow improvements land in persistent memory files or
     skill documents, and a retro agent reads the full session transcripts at the end of each workstream and proposes edits to the system itself.</li>
   </ol>
 </section>
 
 <section id="claude-md">
-  <h2>6 · Layer 1 - The CLAUDE.md Contract</h2>
-  <p class="lede">A global <code>~/.claude/CLAUDE.md</code> loads into every session. Mine has two halves: a <strong>communication contract</strong>
-  (how answers must be formatted so I can process dozens of agent reports a day) and the <strong>delegation policy</strong> (section 7).
+  <h2>6 · Layer 1 - The Communication Contract</h2>
+  <p class="lede">A global <code>~/.claude/CLAUDE.md</code> loads into every session and carries two of the four layers: the <strong>communication
+  contract</strong> (how answers must be formatted so I can process dozens of agent reports a day) and the <strong>delegation policy</strong> (section 7).
   The communication half, distilled:</p>
   <div class="card">
     <ul>
@@ -357,13 +360,13 @@
       </li>
     </ul>
   </div>
-  <p class="note">At 30+ PRs a week from agents, my reading speed is the limit, and the contract is what makes an agent report triageable in
-  seconds. The "answers before implementation" rule earned its place after an agent turned an offhand remark of mine into an enforced rule
-  in production code that I had to revert.</p>
+  <p class="note">The "answers before implementation" rule earned its place after an agent turned an offhand remark of mine into an enforced
+  rule in the change under review, which I then had to undo.</p>
 </section>
 
 <section id="delegation">
   <h2>7 · Layer 2 - The Delegation Policy</h2>
+  <p class="lede">Delegation runs on a written policy, so who does what is fixed before any brief gets written.</p>
   <div class="card">
     <h3 style="margin-top:0">Division of Labor Between Models</h3>
     <ul>
@@ -373,14 +376,14 @@
       <li><strong>Implementers (strong but cheaper tier) do all exploration and code writing.</strong> Each one is a fresh agent with edit access
       working in an isolated git worktree, every spawn names its model explicitly (a spawn without a model parameter is a policy violation even
       for "cheap" read-only searches), and coordinators must propagate the model rule into every nested spawn.</li>
-      <li><strong>A second vendor model only reviews.</strong> It runs read-only at high reasoning effort, the orchestrator triages each advisory
-      finding on the merits and owns the verdict, and an errored run gets dropped, with the omission stated in the report.</li>
+      <li><strong>A second vendor model only reviews.</strong> Today that is OpenAI's Codex CLI, run read-only at high reasoning effort, and the
+      orchestrator triages each advisory finding on the merits, owns the verdict, and drops an errored run with the omission stated in the report.</li>
     </ul>
     <h3>What Gets Delegated, and What Stays</h3>
     <ul>
       <li>Bulky sources (meeting transcripts, long chat threads, big document reads) go to subagents that return distilled findings only.</li>
       <li>Wide file sweeps, multi-file codebase reads, and exploratory database queries go to subagents too.</li>
-      <li>Installs, type-check, lint, git commit and push, and PR creation stay in the main thread, along with narrow row-level DB verification
+      <li>Installs, type-check, lint, git commit, git push, and PR creation stay in the main thread, along with narrow row-level DB verification
       on exactly the rows a migration touches, where I see the IDs and current values firsthand because a summarizer can garble a UUID.</li>
     </ul>
     <p class="note">One stretch of transcripts shows the scale: a 37-agent parallel review fan-out over a 7-PR stack, five transcript pulls at
@@ -388,7 +391,7 @@
     verdicts throughout.</p>
     <h3>The Brief Contract - Every Implementation Brief Contains</h3>
     <ol>
-      <li><strong>Verified requirements:</strong> premises checked against repo and memory <em>first</em>, with intentional behaviors that must not change called out.</li>
+      <li><strong>Verified requirements:</strong> premises checked against repo and memory <em>first</em>, plus a named list of the intentional behaviors that must not change.</li>
       <li><strong>Target paths:</strong> the worktree to work in and the seed files to start from.</li>
       <li><strong>Memory-only constraints:</strong> domain gotchas the repo doesn't document, plus an instruction to read the applicable
       <code>AGENTS.md</code> files.</li>
@@ -400,11 +403,11 @@
     <ul>
       <li>There is no artificial agent cap, so N independent units get N parallel subagents, all launched in a single message.</li>
       <li>Recursion stops at depth 5, and coordinators state the current depth and budget in every nested prompt.</li>
-      <li>Per-item agents return small structured verdicts (item, finding, recommendation) that parents aggregate upward, and when coverage is
-      bounded the agent states what it dropped.</li>
     </ul>
     <h3>Agent Conduct</h3>
     <ul>
+      <li>Per-item agents return small structured verdicts (item, finding, recommendation) that parents aggregate upward, and each agent states
+      what it dropped when its coverage is bounded.</li>
       <li>Subagent prompts explicitly authorize liberal tool use ("enumerate widely, search multiple phrasings in parallel, only conclude after
       exhausting the obvious sources"), because those agents' tokens never touch the main thread.</li>
       <li>Implementers stay alive across rounds, so review findings and CI failures go back to the <em>same</em> agent that already holds full context.</li>
@@ -425,7 +428,7 @@
       lands in the implementation brief.</li>
       <li><strong>Fresh worktree.</strong> Every change starts from <code>git worktree add ../repo-&lt;slug&gt; -b &lt;branch&gt; origin/&lt;target&gt;</code>,
       so it builds on the branch it targets (<em>inferred from the files touched</em>, with our CI enforcing a path->branch rule) and stays isolated
-      from the main working tree while many changes proceed in parallel, and a change spanning two surfaces splits into two PRs from that one invocation.</li>
+      from the main working tree while many changes proceed in parallel, and a change spanning two surfaces splits into two PRs from a single pipeline invocation.</li>
       <li><strong>Delegated implementation + nested bug bash.</strong> A fresh implementer agent gets the brief (contract in section 7). After its
       diff is complete, it must spawn its <em>own</em> nested bug bash scoped to that diff, fix every real finding, and repeat until a pass
       comes back clean. Only then does it report up, listing what the inner bash found and fixed. "Done" alone is not an acceptable report.
@@ -435,28 +438,28 @@
       adversarial bug bash agent over the full diff) while type-check, formatter, and linter run. Every bash names security and privacy as a dimension
       (what does the frontend expose, what do DB access paths assume), with a lower bar for internal-only surfaces.
       The orchestrator triages findings on the merits, and fixes go back to the live implementer. The loop repeats with fresh reviews each round until
-      a round produces zero findings worth fixing. Anything rendered also gets a visual pass in a real browser, in both light and dark themes, served by a throwaway
+      a round produces zero findings worth fixing. Anything rendered also gets a visual pass in a real browser in both light and dark themes, against a throwaway
       server started in the PR worktree on a free port, because agent verification never touches my foreground dev server.</li>
       <li><strong>Diff slimming pass.</strong> After the loop converges, the orchestrator reads the final diff once more for what can be removed
-      at no cost, stripping dead parameters, needless indirection, helpers with one consumer, and comment churn without changing behavior.</li>
+      with no change in behavior, stripping dead parameters, needless indirection, helpers with one consumer, and comment churn.</li>
       <li><strong>Commit, push, PR.</strong> The commit message is imperative with a short why plus a model attribution trailer, the PR body is a Summary and a Test plan
       with the actual run output, and the pipeline files the tracking ticket automatically, following the team's project conventions.</li>
       <li><strong>Review bot triage.</strong> A background poll waits for the team's PR review bot, every comment gets an explicit judgment (applied
       via the implementer, or skipped with a one-line reason) and a reply on its own thread carrying the verdict and commit SHA so human
-      reviewers can see each finding was addressed, and a bot that never arrives blocks nothing.</li>
+      reviewers can see each finding was addressed, and a bot that never arrives blocks nothing, though the absence reads as unknown rather than clean.</li>
       <li><strong>Preview verification.</strong> Our deploy pipeline can report success for a build it skipped, so a green check proves nothing on
       its own, and the step confirms that a live deployment exists and loads before the link goes into the report.</li>
       <li><strong>Final report.</strong> The report comes in the numbered format from section 6 and carries the PR URL, a one-paragraph diff
       summary, the review triage verdicts, the preview link, and the path of the worktree, which stays alive for iteration until merge.</li>
     </ol>
-    <p class="note">Stacked programs add three rules.</p>
+    <h3>Stacked Programs Add Three Rules</h3>
     <ol>
       <li>Branch each PR from its predecessor, so its GitHub diff shows only its own work from the moment it opens.</li>
       <li>Carry <code>[PR n/N - Program]</code> in the title, in merge order.</li>
       <li>Run an explicit <code>git rebase --onto</code> after each parent merge to drop the parent's commits, because squash-merge breaks
       child branches and a plain rebase leaves the commits in.</li>
     </ol>
-    <p class="note">The transcripts surfaced two more traps.</p>
+    <h3>Two Traps the Transcripts Surfaced</h3>
     <ul>
       <li>A stacked PR runs almost no checks, so a "clean" merge state can just mean "no checks configured", and I retarget each PR and watch
       the full suite before every merge.</li>
@@ -465,21 +468,20 @@
   </div>
 
   <h3>Seven Review Layers Catch What Any Single Reviewer Misses</h3>
-  <p>Seven layers of review pressure fire at different points in the pipeline, from design time to after the PR opens. Two of them exist
-  because human review and PR review bots optimize for correctness on the diff and rarely ask <em>"who can call this, as which role,
-  from where?"</em></p>
+  <p>Two of them exist because human review and PR review bots optimize for correctness on the diff and rarely ask <em>"who can call this,
+  as which role, from where?"</em> The rest fire from design time through to after the PR opens.</p>
   <div class="card">
     <div class="tbl-scroll">
     <table>
       <thead><tr><th>#</th><th>Layer</th><th>When it fires</th></tr></thead>
       <tbody>
         <tr><td>1</td><td>Pre-plan review themes checklist: recurring failure themes distilled from past heavily reviewed work (default privilege traps, audit atomicity, gates shipping with their keys, migrations as operations, contract drift)</td><td>Design time, before implementation, on database work and multi-PR stacks</td></tr>
-        <tr><td>2</td><td>Implementer's nested bug bash: the implementing agent spawns its own adversary</td><td>Inside implementation, loops until an inner pass is clean</td></tr>
-        <tr><td>3</td><td>Cross-vendor read-only review: a second vendor's model at high reasoning effort, advisory only</td><td>Verify stage, backgrounded, fresh pass every loop round</td></tr>
-        <tr><td>4</td><td>Adversarial bug bash over the full combined diff: prompted to <em>break</em> the code, with every finding required to survive re-reading the actual code path</td><td>Verify stage, backgrounded, fresh pass every loop round</td></tr>
-        <tr><td>5</td><td>Per-PR security sweep: one read-only agent per PR, in parallel, each given that PR's diff, the repo's permission model, and a demand for a <em>concrete attack scenario</em> per finding</td><td>DB permission changes, visibility gates, new API routes, multi-PR stacks</td></tr>
+        <tr><td>2</td><td>Implementer's nested bug bash (step 3)</td><td>Inside implementation, loops until an inner pass is clean</td></tr>
+        <tr><td>3</td><td>Cross-vendor read-only review (step 4): advisory only</td><td>Verify stage, backgrounded, fresh pass every loop round</td></tr>
+        <tr><td>4</td><td>Adversarial bug bash over the full combined diff (step 4): prompted to <em>break</em> the code, with every finding required to survive re-reading the actual code path</td><td>Verify stage, backgrounded, fresh pass every loop round</td></tr>
+        <tr><td>5</td><td>Per-PR security sweep: one read-only agent per PR, in parallel, each given that PR's diff and the repo's permission model, and each required to produce a <em>concrete attack scenario</em> per finding</td><td>DB permission changes, visibility gates, new API routes, multi-PR stacks</td></tr>
         <tr><td>6</td><td>The team's PR review bot: every inline comment gets a verdict reply on the thread</td><td>After PR open</td></tr>
-        <tr><td>7</td><td>The orchestrator's own review: held to the standard of a human PR review, plus the final diff slimming pass</td><td>Before verify, and again after the loop converges</td></tr>
+        <tr><td>7</td><td>The orchestrator's own review (steps 4 and 5): held to the standard of a human PR review, plus the final diff slimming pass</td><td>Before verify, and again after the loop converges</td></tr>
       </tbody>
     </table>
     </div>
@@ -493,11 +495,12 @@
 
 <section id="memory">
   <h2>9 · Layer 4 - Memory, Skills, and the Retro Loop</h2>
+  <p class="lede">Layers 1 to 3 are static, and this one is what makes the system get better between sessions.</p>
   <div class="card">
     <h3 style="margin-top:0">Persistent Memory</h3>
     <ul>
-      <li>Memory is a per-project directory of markdown files, one fact per file (132 files today), covering who I am, feedback on how to work
-      (with the <em>why</em> attached), ongoing project state, and reference pointers, behind a one-line index that loads into every session.</li>
+      <li>Memory is a per-project directory of markdown files behind a one-line index that loads into every session, one fact per file
+      (132 files today), covering who I am, feedback on how to work (with the <em>why</em> attached), ongoing project state, and reference pointers.</li>
       <li>The files hold corrections I've given, API gotchas discovered at 2am ("this provider returns a black image as HTTP 200 at 50 steps,
       cap at 49"), premises that turned out wrong, and environment traps, while anything the repo or git history already records stays out.</li>
     </ul>
@@ -529,18 +532,19 @@
       <li><strong>Write the communication contract first.</strong> Create <code>~/.claude/CLAUDE.md</code> in about 30 minutes, covering
       how you want answers formatted (steal the numbered hierarchy rule), the "answer questions before implementing" rule, and how you review
       (for example, "diffs on GitHub only"), because the file loads into every session and those ~50 lines pay for themselves in each one.</li>
-      <li><strong>Split orchestrator and implementer.</strong> Add a delegation section where the main loop verifies premises, writes briefs, and
-      reviews while subagents (explicitly named model tier on every spawn) explore and implement, then copy the six-point brief contract from
-      section 7 verbatim, especially the closing line about stopping when the repo contradicts the brief.</li>
+      <li><strong>Split orchestrator and implementer.</strong> Add a delegation section that gives the main loop premise verification, brief writing,
+      and review while subagents explore and implement, with every spawn naming its model tier explicitly, then copy the six-point brief contract
+      from section 7 verbatim, especially the closing line about stopping when the repo contradicts the brief.</li>
       <li><strong>Adopt worktree isolation.</strong> One change gets one worktree off the target branch, which is what makes 5+ parallel changes
       tractable and keeps your main tree clean for the next conversation.</li>
       <li><strong>Build your atomic-PR command.</strong> Write a markdown file in your repo's <code>.claude/commands/</code> that implements section 8's nine
       steps against <em>your</em> CI, review bots, and deploy pipeline, starting minimal (sweep -> worktree -> implement -> verify -> PR) and letting the retro
       loop grow it the way mine grew to ~200 lines over a month of "that failure becomes a rule" edits, a third of which double-check
       status signals that lie (section 11).</li>
-      <li><strong>Layer the review pressure.</strong> Add the layers in order of value, recursing until a round comes back clean: (a) the nested bug bash inside the implementer, (b) a fresh adversarial
-      review agent over the final diff with security/privacy as a named dimension, (c) a second vendor model in read-only mode, which finds
-      a different class of failure, and (d) whatever PR review bot your team runs, with the rule to reply on every thread.</li>
+      <li><strong>Layer the review pressure.</strong> Add the layers in order of value, recursing until a round comes back clean, starting with the
+      nested bug bash inside the implementer (layer 2), then a fresh adversarial review agent over the final diff with security and privacy as a
+      named dimension (layer 4), then a second vendor model in read-only mode (layer 3), which finds a different class of failure, and finally
+      whatever PR review bot your team runs (layer 6), with the rule to reply on every thread.</li>
       <li><strong>Start the memory habit.</strong> Write one indexed markdown file for every correction you type twice and one for every
       gotcha that cost you an hour, then add the retro agent (section 9) so the harvesting happens automatically at thread close.</li>
       <li><strong>Only then scale parallelism.</strong> Thread letters, stacked PR conventions, and fan-outs of dozens of agents are the processing
@@ -560,48 +564,50 @@
     <p class="note">Total setup from zero is about a weekend. Whatever you copy, keep the split, with personal workflow living in personal
     config (user-global <code>CLAUDE.md</code>, gitignored command files) and the repo's shared agent docs staying free of it, because your
     conventions should not become your team's obligations by default. The contract file, the orchestrator/implementer split, and the worktree
-    habit (steps 1-3) carried about half of my speedup, and the pipeline and the review stack made the engineering itself delegable.</p>
+    habit (steps 1-3) produced about half of my speedup, and the pipeline and the review stack made the engineering itself delegable.</p>
   </div>
 </section>
 
 <section id="costs">
-  <h2>11 · Costs, Failure Modes, and Tooling Traps</h2>
+  <h2>11 · Costs, Failure Modes, Tooling Traps, and Confounds</h2>
+  <p class="lede">The method has a price, three failure modes I have hit, a set of tooling signals that lie, and confounds I cannot remove
+  from the data.</p>
   <div class="card">
-    <h3 style="margin-top:0">The Costs</h3>
+    <h3 style="margin-top:0">Costs</h3>
     <ul>
-      <li><strong>Token spend is real.</strong> Every PR pays for an orchestrator, an implementer, and 2-4 review passes, and that line sits in
-      my infrastructure budget below what the same findable bugs would cost me in review hours.</li>
+      <li><strong>Token spend is real.</strong> Every PR pays for an orchestrator, an implementer, and 2-4 review passes, and that budget line
+      costs less than the review hours it would take to find the same bugs by hand.</li>
       <li><strong>Review bandwidth becomes the bottleneck.</strong> The whole communication contract exists because I read 30 PRs a week, so fix
       your report format before the volume arrives.</li>
       <li><strong>Some work stays human.</strong> I delegate the typing and keep the accountability, so five things stay mine: premise verification,
       brief writing, every merge, every DB migration application, and deprecations that need judgment.</li>
     </ul>
-    <h3>Failure Modes of the Method</h3>
+    <h3>Failure Modes</h3>
     <ul>
       <li><strong>Agents execute flawed briefs without complaint.</strong> The review stack catches bad code, and a wrong premise executed with full
-      confidence passes straight through it, which makes premise verification before the brief goes out the one step I never hand to an agent.</li>
-      <li><strong>The same symptom does not mean the same cause.</strong> Re-measure before reusing a past remedy, because one session nearly re-applied an old fix
-      to a different failure layer just from a matching error message.</li>
+      confidence passes straight through it, which is why premise verification stays the one step I never hand to an agent.</li>
+      <li><strong>A matching error message hides a different root cause.</strong> I re-measure before reusing any past remedy, because one session
+      nearly re-applied an old fix to a different failure layer on the strength of the error text alone.</li>
       <li><strong>A silently waived step blinds the reviewer.</strong> When I waive a pipeline step (a context sweep skipped, a check deferred),
       I state the waiver and the reason, so the reviewer knows what protection I traded away.</li>
     </ul>
-    <h3>Traps in the Tooling</h3>
+    <h3>Tooling Traps</h3>
     <ul>
-      <li><strong>Green statuses lie.</strong> A third of my pipeline file is workarounds for signals that report success while meaning nothing
-      (skipped builds reporting green, "clean" merge states meaning "no checks configured"), so every status you rely on needs a liveness probe
-      the first time, and the probe belongs in the pipeline file.</li>
+      <li><strong>Green statuses lie.</strong> A third of my pipeline file is workarounds for signals that report success while meaning nothing,
+      so every status you rely on needs a liveness probe the first time, and the probe belongs in the pipeline file.</li>
       <li><strong>Backgrounded CLI reviewers hang silently on stdin.</strong> One review burned 13 minutes waiting on "reading additional input
       from stdin", so close stdin (<code>&lt; /dev/null</code>) when backgrounding anything that can prompt for input.</li>
       <li><strong>One dead import can poison a whole dev server.</strong> Under some bundlers a single unresolved module makes <em>every</em>
       route return that module's compile error, so an API route that 500s in ~0.1s means the build broke and the query never ran.</li>
       <li><strong>A cleanup PR can break a branch it never touched.</strong> A grep for consumers that comes back empty still misses the branch
-      holding the only pages that import the removed code.</li>
+      holding the only pages that import the removed code, so an empty grep is never proof the code is dead.</li>
       <li><strong>Session transcripts persist to disk unredacted.</strong> Anything pasted into a session, credentials included, lands in
       plaintext, so never paste live secrets.</li>
     </ul>
-    <p class="note">The measurement carries its own confounds. The July jump coincides with both a stronger model <em>and</em> the workflow
-    change (I can't cleanly separate them), April 2026 dips because I was on holiday, and "manual" in 2025 means only "no attribution in git",
-    which leaves editor autocomplete and chat paste invisible to this analysis.</p>
+    <h3>Confounds</h3>
+    <p>The July jump coincides with both a stronger model <em>and</em> the workflow change (I can't cleanly separate them), April 2026 dips
+    because I was on holiday, and "manual" in 2025 means only "no attribution in git", which leaves editor autocomplete and chat paste
+    invisible to this analysis.</p>
   </div>
 </section>
 
@@ -817,8 +823,8 @@ description: Fully autonomous pipeline for one atomic change - context sweep, fr
 
 <footer style="margin-top:70px; color:var(--muted); font-size:0.8rem">
   <p style="color:var(--muted)">Joseph Jeong, Media Generation Benchmarking Lead, Artificial Analysis. August 2026.
-  Methodology: merged PR history of one production monorepo, classified via commit co-author trailers, plus a qualitative read of all 505 PR
-  titles/bodies/commit messages. This page is a single self-contained HTML file. Share it freely.</p>
+  Methodology: merged PR history of one production monorepo, classified via commit co-author trailers, plus a qualitative read of all 507 PR
+  titles/bodies/commit messages. Share it freely.</p>
 </footer>
 
 </div>
@@ -839,9 +845,9 @@ const DATA = [
   ['2025-10', 7,0,0,0,0], ['2025-11',14,0,0,0,0], ['2025-12',12,0,0,0,0],
   ['2026-01', 2,15,0,0,2], ['2026-02', 3,35,0,0,1], ['2026-03', 5,36,0,0,0],
   ['2026-04', 0, 4,0,0,0], ['2026-05', 0,37,0,0,1], ['2026-06', 0,39,11,0,4],
-  ['2026-07', 0, 8,101,6,0], ['2026-08', 0, 0,36,2,0],
+  ['2026-07', 0, 8,101,6,0], ['2026-08', 0, 0,38,2,0],
 ];
-const AUG_PROJ = 213;
+const AUG_PROJ = 202;
 
 const tip = document.getElementById('tip');
 function showTip(evt, html) {
@@ -855,7 +861,7 @@ function showTip(evt, html) {
 function hideTip() { tip.style.display = 'none'; }
 function tipHTML(row) {
   const total = row.slice(1).reduce((a,b)=>a+b,0);
-  let html = `<div class="t">${row[0]} - ${total} PR${total===1?'':'s'}${row[0]==='2026-08' ? ' <span style="font-weight:400;color:var(--muted)">(7 days)</span>':''}</div>`;
+  let html = `<div class="t">${row[0]} - ${total} PR${total===1?'':'s'}${row[0]==='2026-08' ? ' <span style="font-weight:400;color:var(--muted)">(10 days)</span>':''}</div>`;
   SERIES.forEach((s,i) => {
     if (row[i+1] > 0) html += `<div class="row"><span><span class="sw" style="background:var(${s.cssVar})"></span>${s.name}</span><span class="n">${row[i+1]}</span></div>`;
   });
